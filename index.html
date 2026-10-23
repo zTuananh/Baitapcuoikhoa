@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#14243a">
+  <meta name="description" content="NEWS TODAY — cập nhật tin tức mới nhất, nhanh chóng và dễ theo dõi.">
+  <title>News Today - Tin tức mỗi ngày</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- HEADER PHONG CÁCH DÂN TRÍ -->
+  <header class="site-header">
+    <div class="container header-inner">
+      
+      <!-- Khối bên trái: Logo + Ngày giờ + Nhiệt độ -->
+      <div class="header-left">
+        <a class="logo" href="index.html">NEWS </a>
+        
+        <div class="header-datetime-weather">
+          <div class="location-date">
+            <span class="location">Hà Nội</span>
+            <span id="realtime-clock" class="date-time">Chủ nhật, 11/10/2026 00:00:00</span>
+          </div>
+          
+          <div class="weather-box">
+            <span class="weather-icon">⛅</span>
+            <span class="temp">25°C</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Khối bên phải: Crawler link + Đăng nhập / Đăng ký + Tìm kiếm -->
+      <div class="header-right">
+        <a class="crawler-link" href="crawler.html">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <span>Crawler tin tức</span>
+        </a>
+        
+        <div class="auth-buttons">
+          <button type="button" class="btn-auth btn-login" id="open-login-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <span>Đăng nhập</span>
+          </button>
+          <button type="button" class="btn-auth btn-register" id="open-register-btn">
+            <span>Đăng ký</span>
+          </button>
+        </div>
+
+        <button class="search-btn" type="button" aria-label="Tìm kiếm">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- NAVBAR CHUYÊN MỤC & MEGA MENU -->
+  <nav class="navbar" aria-label="Điều hướng chuyên mục">
+    <div class="container navbar-inner">
+      <div class="nav-links" id="menu">
+        <a href="index.html" class="nav-home-icon">🏠</a>
+        <a href="index.html?category=latest">Mới nhất</a>
+        <a href="index.html?category=the-gioi">Thế giới</a>
+        <a href="index.html?category=thoi-su">Thời sự</a>
+        <a href="index.html?category=phap-luat">Pháp luật</a>
+        <a href="index.html?category=suc-khoe">Sức khỏe</a>
+        <a href="index.html?category=doi-song">Đời sống</a>
+        <a href="index.html?category=du-lich">Du lịch</a>
+        <a href="index.html?category=kinh-doanh">Kinh doanh</a>
+        <a href="index.html?category=bat-dong-san">Bất động sản</a>
+        <a href="index.html?category=the-thao">Thể thao</a>
+        <a href="index.html?category=giai-tri">Giải trí</a>
+        <a href="index.html?category=giao-duc">Giáo dục</a>
+        <a href="index.html?category=cong-nghe">Công nghệ</a>
+      </div>
+
+      <button type="button" class="mega-menu-toggle" id="mega-menu-btn" title="Tất cả chuyên mục" aria-label="Mở tất cả chuyên mục">
+        <span></span><span></span><span></span>
+        <span></span><span></span><span></span>
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <!-- BẢNG MEGA MENU MỞ RỘNG KHI BẤM NÚT "..." -->
+    <div class="mega-menu-overlay" id="mega-menu-overlay">
+      <div class="container mega-menu-container">
+        
+        <div class="mega-grid">
+          <div class="mega-col">
+            <h3><a href="index.html?category=the-gioi">THẾ GIỚI</a></h3>
+            <ul>
+              <li><a href="index.html?category=quan-su">Quân sự</a></li>
+              <li><a href="index.html?category=phan-tich">Phân tích - Bình luận</a></li>
+              <li><a href="index.html?category=the-gioi-do-day">Thế giới đó đây</a></li>
+              <li><a href="index.html?category=kieu-bao">Kiều bào</a></li>
+            </ul>
+          </div>
+
+          <div class="mega-col">
+            <h3><a href="index.html?category=thoi-su">THỜI SỰ</a></h3>
+            <ul>
+              <li><a href="index.html?category=chinh-tri">Chính trị</a></li>
+              <li><a href="index.html?category=giao-thong">Giao thông</a></li>
+              <li><a href="index.html?category=moi-truong">Môi trường</a></li>
+              <li><a href="index.html?category=nong-tren-mang">Nóng trên mạng</a></li>
+            </ul>
+          </div>
+
+          <div class="mega-col">
+            <h3><a href="index.html?category=phap-luat">PHÁP LUẬT</a></h3>
+            <ul>
+              <li><a href="index.html?category=phap-luat">Hồ sơ vụ án</a></li>
+              <li><a href="index.html?category=phap-luat">Pháp đình</a></li>
+            </ul>
+          </div>
+
+          <div class="mega-col">
+            <h3><a href="index.html?category=suc-khoe">SỨC KHỎE</a></h3>
+            <ul>
+              <li><a href="index.html?category=suc-khoe">Ung thư</a></li>
+              <li><a href="index.html?category=suc-khoe">Sống khỏe</a></li>
+              <li><a href="index.html?category=suc-khoe">Thận & bệnh mãn tính</a></li>
+              <li><a href="index.html?category=suc-khoe">Tầm soát - Chẩn đoán</a></li>
+            </ul>
+          </div>
+
+          <div class="mega-col">
+            <h3><a href="index.html?category=doi-song">ĐỜI SỐNG</a></h3>
+            <ul>
+              <li><a href="index.html?category=doi-song">Cộng đồng</a></li>
+              <li><a href="index.html?category=doi-song">Thượng lưu</a></li>
+              <li><a href="index.html?category=doi-song">Nhà đẹp</a></li>
+              <li><a href="index.html?category=doi-song">Giới trẻ</a></li>
+            </ul>
+          </div>
+
+          <div class="mega-col">
+            <h3><a href="index.html?category=du-lich">DU LỊCH</a></h3>
+            <ul>
+              <li><a href="index.html?category=du-lich">Khám phá</a></li>
+              <li><a href="index.html?category=du-lich">Món ngon - Điểm đẹp</a></li>
+              <li><a href="index.html?category=du-lich">Tour hay - Khuyến mại</a></li>
+            </ul>
+          </div>
+
+          <div class="mega-col">
+            <h3><a href="index.html?category=kinh-doanh">KINH DOANH</a></h3>
+            <ul>
+              <li><a href="index.html?category=kinh-doanh">Tài chính</a></li>
+              <li><a href="index.html?category=kinh-doanh">Chứng khoán</a></li>
+              <li><a href="index.html?category=kinh-doanh">Doanh nghiệp</a></li>
+              <li><a href="index.html?category=kinh-doanh">Khởi nghiệp</a></li>
+            </ul>
+          </div>
+
+          <div class="mega-col">
+            <h3><a href="index.html?category=bat-dong-san">BẤT ĐỘNG SẢN</a></h3>
+            <ul>
+              <li><a href="index.html?category=bat-dong-san">Dự án</a></li>
+              <li><a href="index.html?category=bat-dong-san">Thị trường</a></li>
+              <li><a href="index.html?category=bat-dong-san">Nhà đất</a></li>
+              <li><a href="index.html?category=bat-dong-san">Nhịp sống đô thị</a></li>
+            </ul>
+          </div>
+
+          <div class="mega-col">
+            <h3><a href="index.html?category=the-thao">THỂ THAO</a></h3>
+            <ul>
+              <li><a href="index.html?category=the-thao">Bóng đá</a></li>
+              <li><a href="index.html?category=the-thao">Pickleball</a></li>
+              <li><a href="index.html?category=the-thao">Tennis</a></li>
+              <li><a href="index.html?category=the-thao">Golf</a></li>
+              <li><a href="index.html?category=the-thao">Cầu lông</a></li>
+              <li><a href="index.html?category=the-thao">Bóng rổ</a></li>
+            </ul>
+          </div>
+
+          <div class="mega-col">
+            <h3><a href="index.html?category=giai-tri">GIẢI TRÍ</a></h3>
+            <ul>
+              <li><a href="index.html?category=giai-tri">Hậu trường</a></li>
+              <li><a href="index.html?category=giai-tri">Sách hay</a></li>
+              <li><a href="index.html?category=giai-tri">Điện ảnh</a></li>
+              <li><a href="index.html?category=giai-tri">Âm nhạc</a></li>
+            </ul>
+          </div>
+
+          <div class="mega-col">
+            <h3><a href="index.html?category=giao-duc">GIÁO DỤC</a></h3>
+            <ul>
+              <li><a href="index.html?category=giao-duc">Góc phụ huynh</a></li>
+              <li><a href="index.html?category=giao-duc">Khuyến học</a></li>
+              <li><a href="index.html?category=giao-duc">Gương sáng</a></li>
+            </ul>
+          </div>
+
+          <div class="mega-col">
+            <h3><a href="index.html?category=cong-nghe">CÔNG NGHỆ</a></h3>
+            <ul>
+              <li><a href="index.html?category=cong-nghe">AI & Internet</a></li>
+              <li><a href="index.html?category=cong-nghe">An ninh mạng</a></li>
+              <li><a href="index.html?category=cong-nghe">Gia dụng thông minh</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mega-sidebar">
+          <div class="mega-sidebar-group">
+            <a href="#"><strong>Dmagazine</strong></a>
+            <a href="#"><strong>DNews</strong></a>
+            <a href="#"><strong>D-Buzz</strong></a>
+            <a href="#"><strong>Photo News</strong></a>
+          </div>
+          <div class="mega-sidebar-group">
+            <a href="#">Infographic</a>
+            <a href="#">Interactive</a>
+            <a href="#">Tâm điểm</a>
+            <a href="#">Bạn đọc</a>
+          </div>
+          <div class="mega-contact">
+            <p>📧 <strong>Liên hệ tòa soạn:</strong><br>contact@newstoday.vn</p>
+            <p>📢 <strong>Liên hệ quảng cáo:</strong><br>ads@newstoday.vn</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- NỘI DUNG CHÍNH -->
+  <main class="container page-content">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">CẬP NHẬT LIÊN TỤC</p>
+        <h1 id="category-title">Tin tức mới nhất</h1>
+      </div>
+      <button id="show-all" class="text-button" type="button">Tất cả tin</button>
+    </div>
+    <p id="status-message" class="status-message" aria-live="polite"></p>
+    <section id="featured-news" class="featured-news" aria-label="Tin nổi bật"></section>
+    <section class="more-news-section">
+      <h2>Tin tức khác</h2>
+      <div id="news-list" class="news-list"></div>
+    </section>
+  </main>
+
+  <!-- HỘP TÌM KIẾM TIN TỨC -->
+  <div class="search-overlay" id="search-modal" aria-hidden="true">
+    <section class="search-panel" role="dialog" aria-modal="true" aria-labelledby="search-title">
+      <button class="search-close" type="button" id="close-search-btn" aria-label="Đóng tìm kiếm">&times;</button>
+      <h2 id="search-title">Tìm kiếm tin tức</h2>
+      <p class="search-intro">Tìm nhanh theo tiêu đề, chuyên mục hoặc nội dung bài viết.</p>
+      <form class="site-search-form" id="site-search-form" role="search">
+        <input id="site-search-input" name="q" type="search" placeholder="Ví dụ: kinh doanh, giáo dục…" autocomplete="off" aria-label="Từ khóa tìm kiếm" required>
+        <button class="search-submit" type="submit">Tìm kiếm</button>
+      </form>
+      <p class="search-status" id="search-status" aria-live="polite">Nhập từ khóa để bắt đầu.</p>
+      <div class="search-results" id="search-results" aria-live="polite"></div>
+    </section>
+  </div>
+
+  <!-- POPUP MODAL ĐĂNG NHẬP / ĐĂNG KÝ -->
+  <div class="auth-modal-overlay" id="auth-modal" aria-hidden="true">
+    <div class="auth-modal-card">
+      <button type="button" class="auth-close-btn" id="close-auth-modal" aria-label="Đóng">&times;</button>
+      
+      <!-- Chuyển đổi Tab Login / Register -->
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab active" data-tab="login">Đăng nhập</button>
+        <button type="button" class="auth-tab" data-tab="register">Đăng ký tài khoản</button>
+      </div>
+
+      <div class="auth-body">
+        <!-- ĐĂNG NHẬP BẰNG TÀI KHOẢN MẠNG XÃ HỘI -->
+        <div class="social-login-group">
+          <button type="button" class="btn-social btn-google" id="btn-google-login">
+            <svg width="18" height="18" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+            <span>Tiếp tục với Google</span>
+          </button>
+
+          <button type="button" class="btn-social btn-facebook" id="btn-facebook-login">
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+            <span>Tiếp tục với Facebook</span>
+          </button>
+        </div>
+
+        <div class="auth-divider">
+          <span>hoặc sử dụng Email</span>
+        </div>
+
+        <!-- FORM ĐĂNG NHẬP -->
+        <form id="form-login" class="auth-form active">
+          <div class="form-group">
+            <label for="login-email">Email / Tên tài khoản</label>
+            <input type="email" id="login-email" placeholder="nhapemail@example.com" required>
+          </div>
+          <div class="form-group">
+            <label for="login-password">Mật khẩu</label>
+            <input type="password" id="login-password" placeholder="••••••••" required>
+          </div>
+          <div class="form-actions">
+            <label class="remember-me">
+              <input type="checkbox" id="login-remember"> Ghi nhớ đăng nhập
+            </label>
+            <a href="#" class="forgot-pass">Quên mật khẩu?</a>
+          </div>
+          <button type="submit" class="btn-submit">Đăng nhập</button>
+        </form>
+
+        <!-- FORM ĐĂNG KÝ -->
+        <form id="form-register" class="auth-form">
+          <div class="form-group">
+            <label for="reg-fullname">Họ và tên</label>
+            <input type="text" id="reg-fullname" placeholder="Nguyễn Văn A" required>
+          </div>
+          <div class="form-group">
+            <label for="reg-email">Địa chỉ Email</label>
+            <input type="email" id="reg-email" placeholder="nhapemail@example.com" required>
+          </div>
+          <div class="form-group">
+            <label for="reg-password">Mật khẩu</label>
+            <input type="password" id="reg-password" placeholder="Tối thiểu 6 ký tự" minlength="6" required>
+          </div>
+          <div class="form-group">
+            <label for="reg-confirm-password">Xác nhận mật khẩu</label>
+            <input type="password" id="reg-confirm-password" placeholder="Nhập lại mật khẩu" required>
+          </div>
+          <div class="form-actions">
+            <label class="remember-me">
+              <input type="checkbox" required> Tôi đồng ý với <a href="#">Điều khoản sử dụng</a>
+            </label>
+          </div>
+          <button type="submit" class="btn-submit">Tạo tài khoản</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <section>
+        <h2>NEWS TODAY</h2>
+        <p>Website tin tức phục vụ mục đích học tập và cập nhật thông tin nhanh chóng.</p>
+      </section>
+      <section>
+        <h3>Liên kết nhanh</h3>
+        <a href="index.html">Trang chủ</a>
+        <a href="index.html?category=latest">Tin mới</a>
+        <a href="crawler.html">Crawler tin tức</a>
+      </section>
+      <section>
+        <h3>Chuyên mục</h3>
+        <div id="footer-categories" class="footer-links"></div>
+      </section>
+      <section>
+        <h3>Liên hệ</h3>
+        <p>Email: contact@example.com</p>
+        <p>Thông tin liên hệ mẫu</p>
+      </section>
+    </div>
+    <div class="container copyright">© 2026 NEWS TODAY — Bài tập lớn xây dựng web tin tức.</div>
+  </footer>
+
+  <!-- NHỮNG FILE SCRIPT CHÍNH -->
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/button.js"></script>
+
+  <!-- SCRIPT ĐỒNG HỒ REAL-TIME -->
+  <script>
+    function updateClock() {
+      const now = new Date();
+      const days = ['Chủ nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy'];
+      const dayName = days[now.getDay()];
+      
+      const day = String(now.getDate()).padStart(2, '0');
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const year = now.getFullYear();
+      
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+
+      const timeString = `${dayName}, ${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+      const clockEl = document.getElementById('realtime-clock');
+      if (clockEl) clockEl.innerText = timeString;
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crawler tin tức - News Today</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- THÊM DÒNG NÀY ĐỂ BỎ CHẶN ẢNH TỪ DÂN TRÍ -->
+  <meta name="referrer" content="no-referrer">
+  <title>News Today</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+  <!-- HEADER ĐỒNG BỘ THEO PHONG CÁCH DÂN TRÍ -->
+  <header class="site-header">
+    <div class="container header-inner">
+      
+      <!-- Khối bên trái: Logo + Ngày giờ + Nhiệt độ -->
+      <div class="header-left">
+        <a class="logo" href="index.html">NEWS TODAY</a>
+        
+        <div class="header-datetime-weather">
+          <div class="location-date">
+            <span class="location">Hà Nội</span>
+            <span id="realtime-clock" class="date-time">Chủ nhật, 11/10/2026 00:00:00</span>
+          </div>
+          
+          <div class="weather-box">
+            <span class="weather-icon">⛅</span>
+            <span class="temp">25°C</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Khối bên phải: Nút Về trang chủ + Đăng nhập + Tìm kiếm -->
+      <div class="header-right">
+        <a class="crawler-link" href="index.html">Về trang chủ</a>
+        
+        <a href="#login" class="login-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <span>Đăng nhập</span>
+        </a>
+
+        <button class="search-btn" type="button" aria-label="Tìm kiếm">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- NAVBAR CHUYÊN MỤC -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html">Trang chủ</a>
+      <a href="crawler.html" aria-current="page">Crawler tin tức</a>
+    </div>
+  </nav>
+
+  <!-- NỘI DUNG CHÍNH TRANG CRAWLER -->
+  <main class="container crawler-container">
+    <p class="eyebrow">THU THẬP DỮ LIỆU</p>
+    <h1>Crawler tin tức</h1>
+    <p class="intro">Nhập URL một bài báo để thử trích xuất thông tin và lưu bài viết vào LocalStorage.</p>
+
+    <!-- Form nhập URL -->
+    <form id="crawler-form" class="crawler-form">
+      <label for="article-url">URL bài báo</label>
+      <input id="article-url" name="url" type="url" placeholder="https://dantri.com.vn/..." required>
+      <button type="submit" id="crawl-button">Lấy dữ liệu bài viết</button>
+    </form>
+
+    <p id="crawler-status" class="status-message" aria-live="polite"></p>
+
+    <!-- Khối kết quả dữ liệu cào được -->
+    <section id="crawler-result" class="crawler-result" hidden>
+      <h2>Dữ liệu trích xuất</h2>
+      <pre id="crawler-json"></pre>
+      <button type="button" id="save-crawled-post">Lưu bài viết vào LocalStorage</button>
+    </section>
+
+    <!-- Ghi chú về nguồn hỗ trợ -->
+    <aside class="notice">
+      <strong>Cách chạy:</strong> Chạy <code>python server.py</code> trong thư mục dự án, sau đó mở <code>http://127.0.0.1:3000/crawler.html</code>. Crawler chỉ hỗ trợ URL HTTPS từ dantri.com.vn.
+    </aside>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <section>
+        <h2>NEWS TODAY</h2>
+        <p>Website tin tức phục vụ mục đích học tập.</p>
+      </section>
+      <section>
+        <h3>Liên kết nhanh</h3>
+        <a href="index.html">Trang chủ</a>
+        <a href="index.html">Tin mới</a>
+        <a href="crawler.html">Crawler tin tức</a>
+      </section>
+      <section>
+        <h3>Chuyên mục</h3>
+        <div id="footer-categories" class="footer-links"></div>
+      </section>
+      <section>
+        <h3>Liên hệ</h3>
+        <p>Email: contact@example.com</p>
+        <p>Thông tin liên hệ mẫu</p>
+      </section>
+    </div>
+    <div class="container copyright">© 2026 NEWS TODAY — Bài tập lớn xây dựng web tin tức.</div>
+  </footer>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script src="js/storage.js"></script>
+  <script src="js/crawler.js"></script>
+
+  <!-- SCRIPT CẬP NHẬT ĐỒNG HỒ THỜI GIAN THỰC -->
+  <script>
+    function updateClock() {
+      const now = new Date();
+      const days = ['Chủ nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy'];
+      const dayName = days[now.getDay()];
+      
+      const day = String(now.getDate()).padStart(2, '0');
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const year = now.getFullYear();
+      
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+
+      const timeString = `${dayName}, ${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+      const clockEl = document.getElementById('realtime-clock');
+      if (clockEl) clockEl.innerText = timeString;
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
+</body>
+</html>
