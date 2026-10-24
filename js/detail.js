@@ -9,7 +9,7 @@
     })[character]);
   }
 
-  // Xóa đoạn Sapo bị lặp ở thẻ <p> đầu tiên trong nội dung bài
+  // 1. Hàm tự động lọc bỏ đoạn Sapo bị trùng trong nội dung bài viết
   function removeDuplicateSapo(excerpt, content) {
     if (!content) return "";
     if (!excerpt) return content;
@@ -22,6 +22,7 @@
       const textP = firstP.innerText.trim().toLowerCase();
       const textExcerpt = excerpt.trim().toLowerCase();
 
+      // Nếu thẻ <p> đầu tiên trùng hoặc chứa nội dung của Sapo -> Xóa thẻ <p> đó
       if (textP === textExcerpt || textP.includes(textExcerpt) || textExcerpt.includes(textP)) {
         firstP.remove();
       }
@@ -30,7 +31,7 @@
     return tempDiv.innerHTML;
   }
 
-  // Định dạng ngày giờ hiển thị
+  // 2. Hàm định dạng ngày giờ hiển thị (DD/MM/YYYY - HH:mm)
   function formatDate(dateStr) {
     if (!dateStr) return "Chưa rõ thời gian";
     const d = new Date(dateStr);
@@ -47,7 +48,7 @@
     try {
       if (!id) throw new Error("Không tìm thấy mã bài viết trong đường dẫn.");
 
-      // Lấy bài viết từ NewsStorage hoặc fetch từ posts_3.json
+      // Lấy danh sách bài viết từ NewsStorage hoặc fallback về posts_3.json
       let posts = [];
       if (typeof NewsStorage !== "undefined" && typeof NewsStorage.getAllPosts === "function") {
         posts = await NewsStorage.getAllPosts();
@@ -61,20 +62,26 @@
 
       document.title = `${post.title} - News Today`;
 
+      // Lấy thông tin Tác giả & Chuyên mục an toàn
       const authorText = typeof post.author === 'object' ? post.author?.name : post.author;
       const categoryText = Array.isArray(post.category) ? post.category.join(', ') : post.category;
 
       const externalLink = post.url && post.url !== "#" 
-        ? `<a href="${escapeHtml(post.url)}" target="_blank" rel="noopener noreferrer" class="btn-source-link">Xem bài viết gốc tại nguồn ↗</a>` 
+        ? `<a href="${escapeHtml(post.url)}" target="_blank" rel="noopener noreferrer" class="btn-source-link">Xem bài gốc tại nguồn ↗</a>` 
         : "";
 
+      // Tự động làm sạch nội dung, tránh bị lặp lại đoạn Sapo
       const cleanedContent = removeDuplicateSapo(post.excerpt, post.content);
 
       target.innerHTML = `
-        <!-- Điều hướng & Nút quay về -->
+        <!-- Thanh điều hướng & Nút quay lại -->
         <nav class="detail-navigation">
           <a href="index.html" class="btn-back-link">
-            ← Quay lại trang chủ
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Quay lại danh sách
           </a>
           <div class="breadcrumb-trail">
             <a href="index.html">Trang chủ</a>
@@ -88,10 +95,17 @@
           <span class="category-badge">${escapeHtml(categoryText || "TIN TỨC")}</span>
           <h1 class="article-main-title">${escapeHtml(post.title)}</h1>
           
+          <!-- Metadata: Tác giả & Ngày đăng -->
           <div class="article-meta-bar">
-            <span>✍️ Tác giả: <strong>${escapeHtml(authorText || "Dân trí")}</strong></span>
+            <div class="meta-item">
+              <span class="meta-label">✍️ Tác giả:</span>
+              <strong class="meta-value">${escapeHtml(authorText || "Dân trí")}</strong>
+            </div>
             <span class="meta-divider">•</span>
-            <span>🕒 ${escapeHtml(formatDate(post.publishedAt))}</span>
+            <div class="meta-item">
+              <span class="meta-label">🕒 Đăng lúc:</span>
+              <span class="meta-value">${escapeHtml(formatDate(post.publishedAt))}</span>
+            </div>
           </div>
         </div>
 
@@ -102,7 +116,7 @@
           </div>
         ` : ""}
 
-        <!-- Ảnh chính bài viết -->
+        <!-- Ảnh đại diện nổi bật -->
         ${post.image ? `
           <div class="article-featured-media">
             <img src="${escapeHtml(post.image)}" alt="${escapeHtml(post.title)}" referrerpolicy="no-referrer">
@@ -114,9 +128,11 @@
           ${cleanedContent || "<p>Chưa có nội dung chi tiết.</p>"}
         </div>
 
-        <!-- Khối nguồn bài viết -->
+        <!-- Khối thông tin nguồn tin -->
         <div class="article-footer-box">
-          <span>Nguồn tin: <strong>${escapeHtml(post.source || "dantri.com.vn")}</strong></span>
+          <div class="source-info">
+            <span>Nguồn tin: <strong>${escapeHtml(post.source || "dantri.com.vn")}</strong></span>
+          </div>
           ${externalLink}
         </div>
       `;
