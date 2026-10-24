@@ -9,33 +9,126 @@
     })[character]);
   }
 
+  // Xóa đoạn Sapo bị lặp ở thẻ <p> đầu tiên trong nội dung bài
+  function removeDuplicateSapo(excerpt, content) {
+    if (!content) return "";
+    if (!excerpt) return content;
+
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = content;
+
+    const firstP = tempDiv.querySelector("p");
+    if (firstP) {
+      const textP = firstP.innerText.trim().toLowerCase();
+      const textExcerpt = excerpt.trim().toLowerCase();
+
+      if (textP === textExcerpt || textP.includes(textExcerpt) || textExcerpt.includes(textP)) {
+        firstP.remove();
+      }
+    }
+
+    return tempDiv.innerHTML;
+  }
+
+  // Định dạng ngày giờ hiển thị
+  function formatDate(dateStr) {
+    if (!dateStr) return "Chưa rõ thời gian";
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return dateStr;
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    const hours = String(d.getHours()).padStart(2, '0');
+    const minutes = String(d.getMinutes()).padStart(2, '0');
+    return `${day}/${month}/${year} - ${hours}:${minutes}`;
+  }
+
   async function init() {
     try {
       if (!id) throw new Error("Không tìm thấy mã bài viết trong đường dẫn.");
-      const posts = await NewsStorage.getAllPosts();
-      const post = posts.find((item) => item.id === id);
+
+      // Lấy bài viết từ NewsStorage hoặc fetch từ posts_3.json
+      let posts = [];
+      if (typeof NewsStorage !== "undefined" && typeof NewsStorage.getAllPosts === "function") {
+        posts = await NewsStorage.getAllPosts();
+      } else {
+        const res = await fetch("posts_3.json");
+        posts = await res.json();
+      }
+
+      const post = posts.find((item) => String(item.id) === String(id));
       if (!post) throw new Error("Không tìm thấy bài viết này.");
-      
+
       document.title = `${post.title} - News Today`;
-      
-      // Lấy thông tin Tác giả & Chuyên mục an toàn
+
       const authorText = typeof post.author === 'object' ? post.author?.name : post.author;
       const categoryText = Array.isArray(post.category) ? post.category.join(', ') : post.category;
 
       const externalLink = post.url && post.url !== "#" 
-        ? `<p><a href="${escapeHtml(post.url)}" target="_blank" rel="noopener noreferrer" class="source-link">Xem bài viết tại nguồn</a></p>` 
+        ? `<a href="${escapeHtml(post.url)}" target="_blank" rel="noopener noreferrer" class="btn-source-link">Xem bài viết gốc tại nguồn ↗</a>` 
         : "";
 
-      target.innerHTML = `<span class="category-label">${escapeHtml(categoryText || "Tin tức")}</span>
-        <h1>${escapeHtml(post.title)}</h1>
-        <div class="post-meta">${escapeHtml(authorText || "Ban biên tập")} · ${escapeHtml(post.publishedAt || "Chưa rõ thời gian")}</div>
-        ${post.image ? `<img class="article-image" src="${escapeHtml(post.image)}" alt="Ảnh bài viết" referrerpolicy="no-referrer">` : ""}
-        ${post.excerpt ? `<p class="article-excerpt">${escapeHtml(post.excerpt)}</p>` : ""}
-        <div class="article-body">${post.content || "Chưa có nội dung chi tiết."}</div>
-        <p class="post-meta">Nguồn: ${escapeHtml(post.source || "dantri.com.vn")}</p>${externalLink}`;
+      const cleanedContent = removeDuplicateSapo(post.excerpt, post.content);
+
+      target.innerHTML = `
+        <!-- Điều hướng & Nút quay về -->
+        <nav class="detail-navigation">
+          <a href="index.html" class="btn-back-link">
+            ← Quay lại trang chủ
+          </a>
+          <div class="breadcrumb-trail">
+            <a href="index.html">Trang chủ</a>
+            <span class="sep">/</span>
+            <span class="current-cat">${escapeHtml(categoryText || "Tin tức")}</span>
+          </div>
+        </nav>
+
+        <!-- Tiêu đề & Chuyên mục -->
+        <div class="article-header">
+          <span class="category-badge">${escapeHtml(categoryText || "TIN TỨC")}</span>
+          <h1 class="article-main-title">${escapeHtml(post.title)}</h1>
+          
+          <div class="article-meta-bar">
+            <span>✍️ Tác giả: <strong>${escapeHtml(authorText || "Dân trí")}</strong></span>
+            <span class="meta-divider">•</span>
+            <span>🕒 ${escapeHtml(formatDate(post.publishedAt))}</span>
+          </div>
+        </div>
+
+        <!-- Đoạn Tóm tắt / Sapo -->
+        ${post.excerpt ? `
+          <div class="article-sapo-box">
+            <p>${escapeHtml(post.excerpt)}</p>
+          </div>
+        ` : ""}
+
+        <!-- Ảnh chính bài viết -->
+        ${post.image ? `
+          <div class="article-featured-media">
+            <img src="${escapeHtml(post.image)}" alt="${escapeHtml(post.title)}" referrerpolicy="no-referrer">
+          </div>
+        ` : ""}
+
+        <!-- Nội dung chi tiết bài viết -->
+        <div class="article-body-content">
+          ${cleanedContent || "<p>Chưa có nội dung chi tiết.</p>"}
+        </div>
+
+        <!-- Khối nguồn bài viết -->
+        <div class="article-footer-box">
+          <span>Nguồn tin: <strong>${escapeHtml(post.source || "dantri.com.vn")}</strong></span>
+          ${externalLink}
+        </div>
+      `;
     } catch (error) {
-      target.innerHTML = `<div class="empty-state">${escapeHtml(error.message)} <a href="index.html">Quay về trang chủ</a></div>`;
+      target.innerHTML = `
+        <div class="error-container">
+          <p class="error-message">⚠️ ${escapeHtml(error.message)}</p>
+          <a href="index.html" class="btn-back-home">🏠 Quay về trang chủ</a>
+        </div>
+      `;
     }
   }
+
   init();
 })();

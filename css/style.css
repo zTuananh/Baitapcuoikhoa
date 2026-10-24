@@ -276,6 +276,7 @@ img { max-width: 100%; }
   line-height: 1.55;
   margin: 0 0 12px;
   display: -webkit-box;
+  line-clamp: 3;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -389,4 +390,188 @@ img { max-width: 100%; }
   .site-header { padding: 12px 0; }
   .logo { font-size: 24px; }
   .crawler-link span, .btn-login span, .btn-register { display: none; }
+}
+/* --- GIAO DIỆN TRANG CHI TIẾT BÀI VIẾT --- */
+#article-detail {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 24px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Thanh điều hướng Quay lại & Breadcrumb */
+.detail-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eaeaea;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.btn-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #1a73e8;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  padding: 6px 14px;
+  background: #f1f5f9;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+}
+
+.btn-back-link:hover {
+  background: #e2e8f0;
+  color: #0d52bf;
+  transform: translateX(-3px);
+}
+
+.breadcrumb-trail {
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.breadcrumb-trail a {
+  color: #64748b;
+  text-decoration: none;
+}
+
+.breadcrumb-trail a:hover {
+  color: #1a73e8;
+  text-decoration: underline;
+}
+
+.breadcrumb-trail .sep {
+  margin: 0 6px;
+  color: #cbd5e1;
+}
+
+.breadcrumb-trail .current-cat {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+/* Header bài viết */
+.category-badge {
+  display: inline-block;
+  background: #e63946;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.article-main-title {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.35;
+  color: #0f172a;
+  margin-bottom: 16px;
+}
+
+.article-meta-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9rem;
+  color: #64748b;
+  margin-bottom: 24px;
+}
+
+.meta-divider {
+  color: #cbd5e1;
+}
+
+/* Khối Sapo */
+.article-sapo-box {
+  background: #f8fafc;
+  border-left: 4px solid #e63946;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  border-radius: 0 8px 8px 0;
+}
+
+.article-sapo-box p {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.6;
+  color: #334155;
+  margin: 0;
+}
+
+/* Ảnh bài viết */
+.article-featured-media img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+/* Nội dung bài viết */
+.article-body-content {
+  font-size: 1.08rem;
+  line-height: 1.8;
+  color: #1e293b;
+}
+
+.article-body-content p {
+  margin-bottom: 18px;
+}
+
+/* Footer bài viết & Nguồn */
+.article-footer-box {
+  margin-top: 32px;
+  padding: 16px 20px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.btn-source-link {
+  background: #0f172a;
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.btn-source-link:hover {
+  background: #334155;
+}
+
+/* Khối lỗi */
+.error-container {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.btn-back-home {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 10px 20px;
+  background: #e63946;
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
 }
