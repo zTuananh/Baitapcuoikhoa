@@ -30,9 +30,9 @@
           "url": "https://dantri.com.vn/the-gioi/quan-su.htm"
         },
         {
-          "id": "phan-tich",
-          "title": "Phân tích - Bình luận",
-          "url": "https://dantri.com.vn/the-gioi/phan-tich-binh-luan.htm"
+          "id": "doi-song",
+          "title": "Đời sống",
+          "url": "https://dantri.com.vn/the-gioi/doi-song.htm"
         },
         {
           "id": "the-gioi-do-day",
@@ -40,9 +40,9 @@
           "url": "https://dantri.com.vn/the-gioi/the-gioi-do-day.htm"
         },
         {
-          "id": "kieu-bao",
-          "title": "Kiều bào",
-          "url": "https://dantri.com.vn/the-gioi/kieu-bao.htm"
+          "id": "phap-luat",
+          "title": "Pháp luật",
+          "url": "https://dantri.com.vn/the-gioi/phap-luat.htm"
         }
       ]
     },

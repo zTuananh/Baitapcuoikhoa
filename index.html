@@ -17,7 +17,7 @@
       
       <!-- Khối bên trái: Logo + Ngày giờ + Nhiệt độ -->
       <div class="header-left">
-        <a class="logo" href="index.html">NEWS </a>
+        <a class="logo" href="index.html">NEWS TODAY</a>
         
         <div class="header-datetime-weather">
           <div class="location-date">
@@ -32,8 +32,11 @@
         </div>
       </div>
 
-      <!-- Khối bên phải: Crawler link + Đăng nhập / Đăng ký + Tìm kiếm -->
+      <!-- Khối bên phải: Mobile Menu Toggle + Crawler link + Đăng nhập / Đăng ký + Tìm kiếm -->
       <div class="header-right">
+        <!-- NÚT HAMBURGER CHO MOBILE -->
+        <button class="mobile-menu-toggle" id="mobile-menu-btn" type="button" aria-label="Mở menu mobile">☰</button>
+
         <a class="crawler-link" href="crawler.html">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
           <span>Crawler tin tức</span>
@@ -238,20 +241,78 @@
 
   <!-- NỘI DUNG CHÍNH -->
   <main class="container page-content">
-    <div class="section-heading">
-      <div>
-        <p class="eyebrow">CẬP NHẬT LIÊN TỤC</p>
-        <h1 id="category-title">Tin tức mới nhất</h1>
+    <!-- BỐ CỤC 2 CỘT (MAIN CONTENT + SIDEBAR) -->
+    <div class="main-layout">
+      <!-- CỘT TRÁI: TIÊU ĐỀ + TIN CHÍNH & DANH SÁCH -->
+      <div class="content-left">
+        
+        <!-- TIÊU ĐỀ VÀ NÚT TẤT CẢ TIN NẰM GỌN TRONG CỘT TRÁI -->
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">CẬP NHẬT LIÊN TỤC</p>
+            <h1 id="category-title">Tin tức mới nhất</h1>
+          </div>
+          <button id="show-all" class="text-button" type="button">Tất cả tin</button>
+        </div>
+
+        <p id="status-message" class="status-message" aria-live="polite"></p>
+        <section id="featured-news" class="featured-news" aria-label="Tin nổi bật"></section>
+        
+        <section class="more-news-section">
+          <h2>Tin tức khác</h2>
+          <div id="news-list" class="news-list"></div>
+          
+          <!-- NÚT XEM THÊM (PAGINATION) -->
+          <div class="load-more-wrapper">
+            <button id="load-more-btn" class="btn-load-more" type="button" style="display: none;">
+              Xem thêm bài viết
+            </button>
+          </div>
+        </section>
       </div>
-      <button id="show-all" class="text-button" type="button">Tất cả tin</button>
+
+      <!-- CỘT PHẢI: SIDEBAR (TỶ GIÁ & TIN XEM NHIỀU) -->
+      <aside class="sidebar-right">
+        <!-- Widget Tỷ giá / Thị trường -->
+        <div class="widget-box">
+          <h3 class="widget-title">📊 Thị trường & Tỷ giá</h3>
+          <table class="finance-table">
+            <thead>
+              <tr>
+                <th>Loại</th>
+                <th>Giá mua</th>
+                <th>Thay đổi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Vàng SJC</td>
+                <td>88.5 tr</td>
+                <td class="up">+0.5%</td>
+              </tr>
+              <tr>
+                <td>USD/VND</td>
+                <td>25.450</td>
+                <td class="up">+0.1%</td>
+              </tr>
+              <tr>
+                <td>VN-Index</td>
+                <td>1.255,4</td>
+                <td class="down">-0.3%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Widget Tin xem nhiều -->
+        <div class="widget-box">
+          <h3 class="widget-title">🔥 Tin xem nhiều</h3>
+          <div id="top-news-container"></div>
+        </div>
+      </aside>
     </div>
-    <p id="status-message" class="status-message" aria-live="polite"></p>
-    <section id="featured-news" class="featured-news" aria-label="Tin nổi bật"></section>
-    <section class="more-news-section">
-      <h2>Tin tức khác</h2>
-      <div id="news-list" class="news-list"></div>
-    </section>
   </main>
+  <div class="nav-backdrop" id="nav-backdrop"></div>
 
   <!-- HỘP TÌM KIẾM TIN TỨC -->
   <div class="search-overlay" id="search-modal" aria-hidden="true">

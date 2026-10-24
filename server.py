@@ -34,6 +34,34 @@ def is_allowed_article_url(value):
     )
 
 
+def detect_category(url):
+    """
+    Tự động phân loại chuyên mục dựa trên từ khóa xuất hiện trong URL
+    """
+    url_lower = (url or "").lower()
+    
+    category_map = {
+        "/the-thao": "Thể thao",
+        "/kinh-doanh": "Kinh doanh",
+        "/thoi-su": "Thời sự",
+        "/the-gioi": "Thế giới",
+        "/phap-luat": "Pháp luật",
+        "/suc-khoe": "Sức khỏe",
+        "/doi-song": "Đời sống",
+        "/du-lich": "Du lịch",
+        "/bat-dong-san": "Bất động sản",
+        "/giai-tri": "Giải trí",
+        "/giao-duc": "Giáo dục",
+        "/cong-nghe": "Công nghệ"
+    }
+    
+    for path, cat_name in category_map.items():
+        if path in url_lower:
+            return [cat_name]
+            
+    return ["Thời sự"]
+
+
 class AllowedRedirectHandler(HTTPRedirectHandler):
     def redirect_request(self, request, response, code, message, headers, new_url):
         if not is_allowed_article_url(new_url):
@@ -116,7 +144,9 @@ class NewsHandler(SimpleHTTPRequestHandler):
                     self.send_json(502, {"error": "Trang nguồn trả về nội dung rỗng."})
                     return
 
-                self.send_json(200, {"html": html})
+                # Trả về cả HTML và chuyên mục tự động phát hiện được từ URL
+                auto_cat = detect_category(article_url)
+                self.send_json(200, {"html": html, "autoCategory": auto_cat})
         except Exception as error:
             self.send_json(502, {"error": f"Không tải được bài viết: {error}"})
 

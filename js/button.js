@@ -1,5 +1,5 @@
 /**
- * button.js - Xử lý điều khiển Mega Menu và Modal Đăng nhập / Đăng ký
+ * button.js - Xử lý điều khiển Mega Menu, Mobile Menu Drawer và Modal Đăng nhập / Đăng ký
  */
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -40,7 +40,35 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ==========================================================================
-     2. XỬ LÝ POPUP MODAL ĐĂNG NHẬP / ĐĂNG KÝ
+     2. XỬ LÝ MOBILE MENU (DRAWER)
+     ========================================================================== */
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const navLinks = document.getElementById('menu');
+  const navBackdrop = document.getElementById('nav-backdrop');
+
+  if (mobileMenuBtn && navLinks) {
+    const toggleMobileMenu = (open) => {
+      const isOpen = open !== undefined ? open : !navLinks.classList.contains('open');
+      navLinks.classList.toggle('open', isOpen);
+      if (navBackdrop) navBackdrop.classList.toggle('open', isOpen);
+    };
+
+    mobileMenuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleMobileMenu();
+    });
+
+    if (navBackdrop) {
+      navBackdrop.addEventListener('click', () => toggleMobileMenu(false));
+    }
+
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => toggleMobileMenu(false));
+    });
+  }
+
+  /* ==========================================================================
+     3. XỬ LÝ POPUP MODAL ĐĂNG NHẬP / ĐĂNG KÝ
      ========================================================================== */
   const authModal = document.getElementById('auth-modal');
   const openLoginBtn = document.getElementById('open-login-btn');
@@ -49,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const authTabs = document.querySelectorAll('.auth-tab');
   const authForms = document.querySelectorAll('.auth-form');
 
-  // Hàm Mở Modal Auth (chọn sẵn tab login hoặc register)
+  // Hàm Mở Modal Auth
   const openAuthModal = (targetTab = 'login') => {
     if (!authModal) return;
     authModal.classList.add('active');
@@ -67,68 +95,52 @@ document.addEventListener('DOMContentLoaded', () => {
   // Hàm Chuyển đổi Tab (Đăng nhập <-> Đăng ký)
   const switchAuthTab = (tabName) => {
     authTabs.forEach(tab => {
-      if (tab.dataset.tab === tabName) {
-        tab.classList.add('active');
-      } else {
-        tab.classList.remove('active');
-      }
+      tab.classList.toggle('active', tab.dataset.tab === tabName);
     });
 
     authForms.forEach(form => {
-      if (form.id === `form-${tabName}`) {
-        form.classList.add('active');
-      } else {
-        form.classList.remove('active');
-      }
+      form.classList.toggle('active', form.id === `form-${tabName}`);
     });
   };
 
   // Nút mở Đăng nhập từ Header
-  if (openLoginBtn) {
-    openLoginBtn.addEventListener('click', () => openAuthModal('login'));
-  }
+  if (openLoginBtn) openLoginBtn.addEventListener('click', () => openAuthModal('login'));
 
   // Nút mở Đăng ký từ Header
-  if (openRegisterBtn) {
-    openRegisterBtn.addEventListener('click', () => openAuthModal('register'));
-  }
+  if (openRegisterBtn) openRegisterBtn.addEventListener('click', () => openAuthModal('register'));
 
   // Nút Đóng Modal
-  if (closeAuthBtn) {
-    closeAuthBtn.addEventListener('click', closeAuthModal);
-  }
+  if (closeAuthBtn) closeAuthBtn.addEventListener('click', closeAuthModal);
 
   // Click ra ngoài background đen mờ để đóng Modal
   if (authModal) {
     authModal.addEventListener('click', (e) => {
-      if (e.target === authModal) {
-        closeAuthModal();
-      }
+      if (e.target === authModal) closeAuthModal();
     });
   }
 
-  // Chuyển Tab khi bấm vào Tab Đăng nhập / Đăng ký
+  // Chuyển Tab khi bấm vào Tab
   authTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      switchAuthTab(tab.dataset.tab);
-    });
+    tab.addEventListener('click', () => switchAuthTab(tab.dataset.tab));
   });
 
-  // Bấm nút Esc đóng Modal hoặc Mega Menu
+  // Bấm nút Esc đóng Modal
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      if (authModal && authModal.classList.contains('active')) {
-        closeAuthModal();
-      }
+      if (authModal && authModal.classList.contains('active')) closeAuthModal();
       if (megaOverlay && megaOverlay.classList.contains('active')) {
         megaBtn.classList.remove('active');
         megaOverlay.classList.remove('active');
+      }
+      if (navLinks && navLinks.classList.contains('open')) {
+        navLinks.classList.remove('open');
+        if (navBackdrop) navBackdrop.classList.remove('open');
       }
     }
   });
 
   /* ==========================================================================
-     3. TÍCH HỢP XỬ LÝ SỰ KIỆN SUBMIT FORM & MẠNG XÃ HỘI
+     4. FORM SUBMIT & MẠNG XÃ HỘI
      ========================================================================== */
   const btnGoogle = document.getElementById('btn-google-login');
   const btnFacebook = document.getElementById('btn-facebook-login');
@@ -136,17 +148,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const formRegister = document.getElementById('form-register');
 
   if (btnGoogle) {
-    btnGoogle.addEventListener('click', () => {
-      alert('Đang kết nối tới tài khoản Google của bạn...');
-      // Code gọi Google OAuth API sẽ đặt tại đây
-    });
+    btnGoogle.addEventListener('click', () => alert('Đang kết nối tới tài khoản Google của bạn...'));
   }
 
   if (btnFacebook) {
-    btnFacebook.addEventListener('click', () => {
-      alert('Đang kết nối tới tài khoản Facebook của bạn...');
-      // Code gọi Facebook SDK/OAuth API sẽ đặt tại đây
-    });
+    btnFacebook.addEventListener('click', () => alert('Đang kết nối tới tài khoản Facebook của bạn...'));
   }
 
   if (formLogin) {
@@ -173,5 +179,33 @@ document.addEventListener('DOMContentLoaded', () => {
       closeAuthModal();
     });
   }
+// Xử lý bật/tắt Modal Tìm kiếm
+const searchBtn = document.querySelector('.search-btn');
+const searchModal = document.getElementById('search-modal');
+const closeSearchBtn = document.getElementById('close-search-btn');
 
+if (searchBtn && searchModal) {
+  searchBtn.addEventListener('click', () => {
+    searchModal.classList.add('active');
+    searchModal.setAttribute('aria-hidden', 'false');
+    document.getElementById('site-search-input')?.focus();
+  });
+}
+
+if (closeSearchBtn && searchModal) {
+  closeSearchBtn.addEventListener('click', () => {
+    searchModal.classList.remove('active');
+    searchModal.setAttribute('aria-hidden', 'true');
+  });
+}
+
+// Click ra ngoài vùng tìm kiếm để đóng
+if (searchModal) {
+  searchModal.addEventListener('click', (e) => {
+    if (e.target === searchModal) {
+      searchModal.classList.remove('active');
+      searchModal.setAttribute('aria-hidden', 'true');
+    }
+  });
+}
 });
